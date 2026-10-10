@@ -1,0 +1,14 @@
+# Virtual environment
+venv/
+
+# Audio Datasets & Weights
+data/
+*.wav
+*.webm
+*.pt
+*.onnx
+
+# Cache & Local Files
+__pycache__/
+.vscode/
+.idea/

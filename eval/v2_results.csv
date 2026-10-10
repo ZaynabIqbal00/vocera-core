@@ -1,0 +1,9 @@
+model,condition,eer,threshold,n_same_or_genuine,n_different_or_imposter
+ECAPA-TDNN,single clip: all pairs,0.1564,0.305,1285,18615
+ECAPA-TDNN,single clip: imposter says a DIFFERENT phrase,0.1549,0.3023,1285,17617
+ECAPA-TDNN,single clip: imposter says the SAME phrase,0.2115,0.3319,1285,998
+ECAPA-TDNN,enrolled with 5 clips,0.0952,0.4075,1250,17500
+CAM++,single clip: all pairs,0.1377,0.305,1285,18615
+CAM++,single clip: imposter says a DIFFERENT phrase,0.1363,0.3031,1285,17617
+CAM++,single clip: imposter says the SAME phrase,0.1704,0.3273,1285,998
+CAM++,enrolled with 5 clips,0.0807,0.4048,1250,17500

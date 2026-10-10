@@ -1,0 +1,181 @@
+file_a,file_b,same_person,ECAPA-TDNN,CAM++
+..\data\raw_15_speakers\alisha\i authorize.wav,..\data\raw_15_speakers\alisha\my name is on account.wav,1,0.70226,0.73431
+..\data\raw_15_speakers\alisha\my voice.wav,..\data\raw_15_speakers\alisha\verify my voice.wav,1,0.74837,0.58787
+..\data\raw_15_speakers\alisha\my voice.wav,..\data\raw_15_speakers\alisha\no.wav,1,0.43319,0.50938
+..\data\raw_15_speakers\alisha\approve.wav,..\data\raw_15_speakers\alisha\i authorize.wav,1,0.47655,0.44338
+..\data\raw_15_speakers\alisha\please confirm.wav,..\data\raw_15_speakers\alisha\transfer.wav,1,0.38742,0.3381
+..\data\raw_15_speakers\alisha\i authorize.wav,..\data\raw_15_speakers\alisha\no.wav,1,0.49892,0.39192
+..\data\raw_15_speakers\esha\i confirm.wav,..\data\raw_15_speakers\esha\i would like.wav,1,0.55403,0.63141
+..\data\raw_15_speakers\esha\my account number.wav,..\data\raw_15_speakers\esha\please transfer funds.wav,1,0.71415,0.56832
+..\data\raw_15_speakers\esha\i authorize.wav,..\data\raw_15_speakers\esha\please confirm.wav,1,0.86932,0.85333
+..\data\raw_15_speakers\esha\confirm.wav,..\data\raw_15_speakers\esha\i confirm.wav,1,0.47345,0.53084
+..\data\raw_15_speakers\esha\balance.wav,..\data\raw_15_speakers\esha\i authorize.wav,1,0.37849,0.42196
+..\data\raw_15_speakers\esha\i confirm.wav,..\data\raw_15_speakers\esha\no.wav,1,0.38795,0.26545
+..\data\raw_15_speakers\fizza\confirm.wav,..\data\raw_15_speakers\fizza\please transfer funds.wav,1,0.37461,0.52195
+..\data\raw_15_speakers\fizza\cancel.wav,..\data\raw_15_speakers\fizza\i would like.wav,1,0.36837,0.36464
+..\data\raw_15_speakers\fizza\approve.wav,..\data\raw_15_speakers\fizza\confirm.wav,1,0.33622,0.31344
+..\data\raw_15_speakers\fizza\cancel.wav,..\data\raw_15_speakers\fizza\verify my voice.wav,1,0.41134,0.38574
+..\data\raw_15_speakers\fizza\please transfer funds.wav,..\data\raw_15_speakers\fizza\verify my voice.wav,1,0.52749,0.62308
+..\data\raw_15_speakers\fizza\i confirm.wav,..\data\raw_15_speakers\fizza\yes.wav,1,0.29146,0.45679
+..\data\raw_15_speakers\huda\i confirm.wav,..\data\raw_15_speakers\huda\verify my voice.wav,1,0.73077,0.73512
+..\data\raw_15_speakers\huda\verify my voice.wav,..\data\raw_15_speakers\huda\yes.wav,1,0.3816,0.41073
+..\data\raw_15_speakers\huda\my account number.wav,..\data\raw_15_speakers\huda\transfer.wav,1,0.27035,0.36905
+..\data\raw_15_speakers\huda\cancel.wav,..\data\raw_15_speakers\huda\confirm.wav,1,0.39886,0.49158
+..\data\raw_15_speakers\huda\please confirm.wav,..\data\raw_15_speakers\huda\yes.wav,1,0.31153,0.36819
+..\data\raw_15_speakers\huda\i authorize.wav,..\data\raw_15_speakers\huda\my account number.wav,1,0.5418,0.60563
+..\data\raw_15_speakers\Isbah\i would like.wav,..\data\raw_15_speakers\Isbah\yes.wav,1,0.24325,0.33649
+..\data\raw_15_speakers\Isbah\my voice is my password.wav,..\data\raw_15_speakers\Isbah\no.wav,1,0.35156,0.27404
+..\data\raw_15_speakers\Isbah\balance.wav,..\data\raw_15_speakers\Isbah\i authorize.wav,1,0.29321,0.28926
+..\data\raw_15_speakers\Isbah\cancel.wav,..\data\raw_15_speakers\Isbah\confirm.wav,1,0.24898,0.34607
+..\data\raw_15_speakers\Isbah\i confirm.wav,..\data\raw_15_speakers\Isbah\my voice is my password.wav,1,0.59438,0.65845
+..\data\raw_15_speakers\Isbah\cancel.wav,..\data\raw_15_speakers\Isbah\transfer.wav,1,0.2785,0.36846
+..\data\raw_15_speakers\laiba\no.wav,..\data\raw_15_speakers\laiba\transfer.wav,1,0.20765,0.27687
+..\data\raw_15_speakers\laiba\balance.wav,..\data\raw_15_speakers\laiba\i authorize.wav,1,0.65602,0.46754
+..\data\raw_15_speakers\laiba\i would like.wav,..\data\raw_15_speakers\laiba\transfer.wav,1,0.56752,0.47928
+..\data\raw_15_speakers\laiba\balance.wav,..\data\raw_15_speakers\laiba\i confirm.wav,1,0.5911,0.55891
+..\data\raw_15_speakers\laiba\approve.wav,..\data\raw_15_speakers\laiba\my voice.wav,1,0.35364,0.40983
+..\data\raw_15_speakers\laiba\cancel.wav,..\data\raw_15_speakers\laiba\transfer.wav,1,0.51531,0.47609
+..\data\raw_15_speakers\misha\verify my voice.wav,..\data\raw_15_speakers\misha\yes.wav,1,0.37729,0.31292
+..\data\raw_15_speakers\misha\confirm.wav,..\data\raw_15_speakers\misha\transfer.wav,1,0.44599,0.51271
+..\data\raw_15_speakers\misha\no.wav,..\data\raw_15_speakers\misha\yes.wav,1,0.04894,0.27596
+..\data\raw_15_speakers\misha\confirm.wav,..\data\raw_15_speakers\misha\i confirm.wav,1,0.63899,0.6765
+..\data\raw_15_speakers\misha\my name is on account.wav,..\data\raw_15_speakers\misha\please confirm.wav,1,0.70563,0.78373
+..\data\raw_15_speakers\misha\i authorize.wav,..\data\raw_15_speakers\misha\no.wav,1,0.12083,0.23584
+..\data\raw_15_speakers\rameen\please confirm.wav,..\data\raw_15_speakers\rameen\verify my voice.wav,1,0.74573,0.80749
+..\data\raw_15_speakers\rameen\approve.wav,..\data\raw_15_speakers\rameen\my account number.wav,1,0.28296,0.31218
+..\data\raw_15_speakers\rameen\my name is on account.wav,..\data\raw_15_speakers\rameen\verify my voice.wav,1,0.71791,0.76576
+..\data\raw_15_speakers\rameen\i authorize.wav,..\data\raw_15_speakers\rameen\please transfer funds.wav,1,0.72281,0.75346
+..\data\raw_15_speakers\rameen\i authorize.wav,..\data\raw_15_speakers\rameen\my voice is my password.wav,1,0.58623,0.64746
+..\data\raw_15_speakers\rameen\i authorize.wav,..\data\raw_15_speakers\rameen\verify my voice.wav,1,0.74936,0.77794
+..\data\raw_15_speakers\ridha\i confirm.wav,..\data\raw_15_speakers\ridha\verify my voice.wav,1,0.69165,0.73945
+..\data\raw_15_speakers\ridha\approve.wav,..\data\raw_15_speakers\ridha\verify my voice.wav,1,0.27412,0.17113
+..\data\raw_15_speakers\ridha\my account number.wav,..\data\raw_15_speakers\ridha\yes.wav,1,0.30098,0.2467
+..\data\raw_15_speakers\ridha\balance.wav,..\data\raw_15_speakers\ridha\i would like.wav,1,0.46258,0.41375
+..\data\raw_15_speakers\ridha\balance.wav,..\data\raw_15_speakers\ridha\cancel.wav,1,0.45141,0.37689
+..\data\raw_15_speakers\ridha\please confirm my identity.wav,..\data\raw_15_speakers\ridha\please transfer funds.wav,1,0.75603,0.80216
+..\data\raw_15_speakers\Robasha\i would like.wav,..\data\raw_15_speakers\Robasha\verify my voice.wav,1,0.77679,0.81394
+..\data\raw_15_speakers\Robasha\i authorize.wav,..\data\raw_15_speakers\Robasha\please confirm my identity.wav,1,0.67713,0.73494
+..\data\raw_15_speakers\Robasha\approve.wav,..\data\raw_15_speakers\Robasha\cancel.wav,1,0.35205,0.22622
+..\data\raw_15_speakers\Robasha\my name is on the account.wav,..\data\raw_15_speakers\Robasha\no.wav,1,0.29619,0.28035
+..\data\raw_15_speakers\Robasha\approve.wav,..\data\raw_15_speakers\Robasha\please transfer funds.wav,1,0.38902,0.39876
+..\data\raw_15_speakers\Robasha\cancel.wav,..\data\raw_15_speakers\Robasha\transfer.wav,1,0.39433,0.3923
+..\data\raw_15_speakers\Saman\balance.wav,..\data\raw_15_speakers\Saman\cancel.wav,1,0.34447,0.46148
+..\data\raw_15_speakers\Saman\no.wav,..\data\raw_15_speakers\Saman\verify my voice.wav,1,0.24868,0.45523
+..\data\raw_15_speakers\Saman\i authorize.wav,..\data\raw_15_speakers\Saman\i would like.wav,1,0.6951,0.64595
+..\data\raw_15_speakers\Saman\my voice is my password.wav,..\data\raw_15_speakers\Saman\no.wav,1,0.37584,0.37294
+..\data\raw_15_speakers\Saman\my voice is my password.wav,..\data\raw_15_speakers\Saman\transfer.wav,1,0.47708,0.45102
+..\data\raw_15_speakers\Saman\approve.wav,..\data\raw_15_speakers\Saman\transfer.wav,1,0.35991,0.23721
+..\data\raw_15_speakers\Sania\my account number.wav,..\data\raw_15_speakers\Sania\please transfer funds.wav,1,0.75055,0.70515
+..\data\raw_15_speakers\Sania\i confirm.wav,..\data\raw_15_speakers\Sania\please transfer funds.wav,1,0.65906,0.76298
+..\data\raw_15_speakers\Sania\approve.wav,..\data\raw_15_speakers\Sania\transfer.wav,1,0.33238,0.39341
+..\data\raw_15_speakers\Sania\i would like.wav,..\data\raw_15_speakers\Sania\my name is on account.wav,1,0.54721,0.7072
+..\data\raw_15_speakers\Sania\please transfer funds.wav,..\data\raw_15_speakers\Sania\transfer.wav,1,0.37539,0.43889
+..\data\raw_15_speakers\Sania\my account number.wav,..\data\raw_15_speakers\Sania\verify my voice.wav,1,0.72002,0.70635
+..\data\raw_15_speakers\shahzad\i confirm.wav,..\data\raw_15_speakers\shahzad\no.wav,1,0.27382,0.36537
+..\data\raw_15_speakers\shahzad\please transfer funds.wav,..\data\raw_15_speakers\shahzad\yes.wav,1,0.46679,0.44126
+..\data\raw_15_speakers\shahzad\cancel.wav,..\data\raw_15_speakers\shahzad\please transfer funds.wav,1,0.58866,0.46716
+..\data\raw_15_speakers\shahzad\approve.wav,..\data\raw_15_speakers\shahzad\my name is on the account.wav,1,0.14677,0.11142
+..\data\raw_15_speakers\shahzad\cancel.wav,..\data\raw_15_speakers\shahzad\my name is on the account.wav,1,0.56896,0.41114
+..\data\raw_15_speakers\shahzad\balance.wav,..\data\raw_15_speakers\shahzad\yes.wav,1,0.50101,0.43443
+..\data\raw_15_speakers\Tahoor\balance.wav,..\data\raw_15_speakers\Tahoor\i confirm this is my voice.wav,1,0.33244,0.45401
+..\data\raw_15_speakers\Tahoor\i confirm this is my voice.wav,..\data\raw_15_speakers\Tahoor\my name is on the account.wav,1,0.63712,0.67015
+..\data\raw_15_speakers\Tahoor\my account number.wav,..\data\raw_15_speakers\Tahoor\no.wav,1,0.26197,0.29753
+..\data\raw_15_speakers\Tahoor\balance.wav,..\data\raw_15_speakers\Tahoor\transfer.wav,1,0.26368,0.46289
+..\data\raw_15_speakers\Tahoor\i authorize.wav,..\data\raw_15_speakers\Tahoor\no.wav,1,0.26051,0.48301
+..\data\raw_15_speakers\Tahoor\confirm.wav,..\data\raw_15_speakers\Tahoor\yes.wav,1,0.13109,0.23228
+..\data\raw_15_speakers\zainab\balance.wav,..\data\raw_15_speakers\zainab\i authorize.wav,1,0.49836,0.58049
+..\data\raw_15_speakers\zainab\cancel.wav,..\data\raw_15_speakers\zainab\i authorize.wav,1,0.63981,0.49495
+..\data\raw_15_speakers\zainab\my voice is my password.wav,..\data\raw_15_speakers\zainab\please confirm my identity.wav,1,0.5709,0.56897
+..\data\raw_15_speakers\zainab\i authorize.wav,..\data\raw_15_speakers\zainab\i would like.wav,1,0.72532,0.63797
+..\data\raw_15_speakers\zainab\no.wav,..\data\raw_15_speakers\zainab\verify my voice.wav,1,0.32105,0.34153
+..\data\raw_15_speakers\zainab\please transfer funds.wav,..\data\raw_15_speakers\zainab\transfer.wav,1,0.5422,0.53066
+..\data\raw_15_speakers\zainab\my account number.wav,..\data\raw_15_speakers\misha\yes.wav,0,0.17016,0.08417
+..\data\raw_15_speakers\misha\cancel.wav,..\data\raw_15_speakers\Robasha\my name is on the account.wav,0,0.29026,0.34249
+..\data\raw_15_speakers\Isbah\please confirm my identity.wav,..\data\raw_15_speakers\ridha\approve.wav,0,0.19187,0.13302
+..\data\raw_15_speakers\Robasha\yes.wav,..\data\raw_15_speakers\zainab\my account number.wav,0,0.03872,0.0769
+..\data\raw_15_speakers\Isbah\no.wav,..\data\raw_15_speakers\alisha\please transfer funds.wav,0,0.14234,0.11815
+..\data\raw_15_speakers\Saman\balance.wav,..\data\raw_15_speakers\esha\i authorize.wav,0,0.27935,0.09478
+..\data\raw_15_speakers\Sania\approve.wav,..\data\raw_15_speakers\misha\transfer.wav,0,0.19967,0.16758
+..\data\raw_15_speakers\Sania\please transfer funds.wav,..\data\raw_15_speakers\Tahoor\transfer.wav,0,0.17691,0.0361
+..\data\raw_15_speakers\zainab\verify my voice.wav,..\data\raw_15_speakers\esha\verify my voice.wav,0,0.5434,0.54457
+..\data\raw_15_speakers\fizza\no.wav,..\data\raw_15_speakers\zainab\yes.wav,0,0.17891,0.30232
+..\data\raw_15_speakers\misha\my voice.wav,..\data\raw_15_speakers\fizza\confirm.wav,0,0.04804,0.20036
+..\data\raw_15_speakers\zainab\please confirm my identity.wav,..\data\raw_15_speakers\laiba\i authorize.wav,0,0.32517,0.12703
+..\data\raw_15_speakers\Saman\yes.wav,..\data\raw_15_speakers\laiba\balance.wav,0,0.19647,0.3566
+..\data\raw_15_speakers\huda\i confirm.wav,..\data\raw_15_speakers\Isbah\no.wav,0,0.11427,0.00811
+..\data\raw_15_speakers\Isbah\balance.wav,..\data\raw_15_speakers\misha\my voice.wav,0,0.09887,0.06944
+..\data\raw_15_speakers\ridha\balance.wav,..\data\raw_15_speakers\misha\transfer.wav,0,0.2524,0.30874
+..\data\raw_15_speakers\Isbah\i would like.wav,..\data\raw_15_speakers\misha\please confirm.wav,0,0.23695,0.19035
+..\data\raw_15_speakers\fizza\confirm.wav,..\data\raw_15_speakers\zainab\please confirm my identity.wav,0,0.07586,0.1257
+..\data\raw_15_speakers\fizza\transfer.wav,..\data\raw_15_speakers\alisha\please transfer funds.wav,0,0.34156,0.27901
+..\data\raw_15_speakers\rameen\cancel.wav,..\data\raw_15_speakers\esha\transfer.wav,0,0.09019,0.20053
+..\data\raw_15_speakers\ridha\i authorize.wav,..\data\raw_15_speakers\Sania\i confirm.wav,0,0.24891,0.3274
+..\data\raw_15_speakers\fizza\i confirm.wav,..\data\raw_15_speakers\huda\my account number.wav,0,0.07725,0.14743
+..\data\raw_15_speakers\alisha\i authorize.wav,..\data\raw_15_speakers\ridha\yes.wav,0,0.24503,0.28712
+..\data\raw_15_speakers\laiba\my voice.wav,..\data\raw_15_speakers\Robasha\no.wav,0,0.26716,0.11948
+..\data\raw_15_speakers\Saman\transfer.wav,..\data\raw_15_speakers\esha\my name is on account.wav,0,0.22972,0.27441
+..\data\raw_15_speakers\zainab\no.wav,..\data\raw_15_speakers\fizza\no.wav,0,0.42811,0.57733
+..\data\raw_15_speakers\ridha\i authorize.wav,..\data\raw_15_speakers\Sania\please transfer funds.wav,0,0.13236,0.20732
+..\data\raw_15_speakers\Sania\my voice is my password.wav,..\data\raw_15_speakers\zainab\my account number.wav,0,0.29941,0.10513
+..\data\raw_15_speakers\zainab\please confirm my identity.wav,..\data\raw_15_speakers\misha\please transfer funds.wav,0,0.42951,0.38059
+..\data\raw_15_speakers\rameen\my voice is my password.wav,..\data\raw_15_speakers\ridha\transfer.wav,0,0.29438,0.33848
+..\data\raw_15_speakers\misha\confirm.wav,..\data\raw_15_speakers\Tahoor\i authorize.wav,0,0.1953,-0.0238
+..\data\raw_15_speakers\fizza\confirm.wav,..\data\raw_15_speakers\alisha\I would like.wav,0,0.20478,0.37902
+..\data\raw_15_speakers\Robasha\confirm.wav,..\data\raw_15_speakers\Saman\my name is on the account.wav,0,0.18388,0.12675
+..\data\raw_15_speakers\Sania\i confirm.wav,..\data\raw_15_speakers\zainab\please transfer funds.wav,0,0.38539,0.3455
+..\data\raw_15_speakers\esha\balance.wav,..\data\raw_15_speakers\shahzad\approve.wav,0,0.21308,0.03876
+..\data\raw_15_speakers\esha\yes.wav,..\data\raw_15_speakers\laiba\no.wav,0,0.07571,0.29628
+..\data\raw_15_speakers\esha\verify my voice.wav,..\data\raw_15_speakers\Saman\please confirm my identity.wav,0,0.37791,0.18475
+..\data\raw_15_speakers\Robasha\my name is on the account.wav,..\data\raw_15_speakers\Sania\yes.wav,0,0.02448,0.00367
+..\data\raw_15_speakers\shahzad\my account number.wav,..\data\raw_15_speakers\zainab\i confirm this is my voice.wav,0,0.0821,0.21986
+..\data\raw_15_speakers\ridha\cancel.wav,..\data\raw_15_speakers\zainab\i confirm this is my voice.wav,0,0.25785,0.35476
+..\data\raw_15_speakers\alisha\I confirm.wav,..\data\raw_15_speakers\Tahoor\transfer.wav,0,0.15431,0.10247
+..\data\raw_15_speakers\Robasha\i would like.wav,..\data\raw_15_speakers\Saman\verify my voice.wav,0,0.1746,0.17199
+..\data\raw_15_speakers\Sania\please transfer funds.wav,..\data\raw_15_speakers\Saman\my name is on the account.wav,0,0.09504,-0.08519
+..\data\raw_15_speakers\alisha\i authorize.wav,..\data\raw_15_speakers\Robasha\please transfer funds.wav,0,0.28006,0.37626
+..\data\raw_15_speakers\fizza\balance.wav,..\data\raw_15_speakers\rameen\please transfer funds.wav,0,0.28457,0.2351
+..\data\raw_15_speakers\zainab\cancel.wav,..\data\raw_15_speakers\shahzad\please transfer funds.wav,0,0.06654,0.05424
+..\data\raw_15_speakers\laiba\verify my voice.wav,..\data\raw_15_speakers\huda\balance.wav,0,0.2974,0.17791
+..\data\raw_15_speakers\rameen\confirm.wav,..\data\raw_15_speakers\Robasha\my name is on the account.wav,0,0.15177,0.24627
+..\data\raw_15_speakers\Tahoor\yes.wav,..\data\raw_15_speakers\ridha\please transfer funds.wav,0,0.11931,0.09082
+..\data\raw_15_speakers\rameen\i confirm.wav,..\data\raw_15_speakers\Isbah\my account number.wav,0,0.10419,0.24517
+..\data\raw_15_speakers\ridha\i confirm.wav,..\data\raw_15_speakers\laiba\my voice.wav,0,0.12895,0.13806
+..\data\raw_15_speakers\Tahoor\i authorize.wav,..\data\raw_15_speakers\Robasha\verify my voice.wav,0,0.16942,0.14398
+..\data\raw_15_speakers\esha\yes.wav,..\data\raw_15_speakers\zainab\please transfer funds.wav,0,0.20135,0.37909
+..\data\raw_15_speakers\Robasha\cancel.wav,..\data\raw_15_speakers\misha\my name is on account.wav,0,0.12126,0.15782
+..\data\raw_15_speakers\rameen\confirm.wav,..\data\raw_15_speakers\huda\my voice.wav,0,0.18739,0.29878
+..\data\raw_15_speakers\fizza\confirm.wav,..\data\raw_15_speakers\laiba\i authorize.wav,0,0.11456,0.02526
+..\data\raw_15_speakers\Saman\balance.wav,..\data\raw_15_speakers\Tahoor\i authorize.wav,0,0.22061,0.34079
+..\data\raw_15_speakers\Robasha\i would like.wav,..\data\raw_15_speakers\ridha\approve.wav,0,0.0754,0.01323
+..\data\raw_15_speakers\alisha\please transfer funds.wav,..\data\raw_15_speakers\Tahoor\yes.wav,0,0.07622,0.18357
+..\data\raw_15_speakers\Sania\confirm.wav,..\data\raw_15_speakers\zainab\yes.wav,0,0.09579,-0.00275
+..\data\raw_15_speakers\ridha\no.wav,..\data\raw_15_speakers\laiba\confirm.wav,0,0.20185,0.29131
+..\data\raw_15_speakers\Saman\my acount number.wav,..\data\raw_15_speakers\alisha\my account number.wav,0,0.20728,0.20136
+..\data\raw_15_speakers\rameen\my voice is my password.wav,..\data\raw_15_speakers\Tahoor\my name is on the account.wav,0,0.17633,0.11543
+..\data\raw_15_speakers\huda\yes.wav,..\data\raw_15_speakers\alisha\please confirm.wav,0,0.10611,0.28897
+..\data\raw_15_speakers\ridha\cancel.wav,..\data\raw_15_speakers\laiba\cancel.wav,0,0.14716,0.19237
+..\data\raw_15_speakers\Isbah\transfer.wav,..\data\raw_15_speakers\Robasha\my account number.wav,0,0.00146,-0.03781
+..\data\raw_15_speakers\Sania\please transfer funds.wav,..\data\raw_15_speakers\laiba\i authorize.wav,0,0.12119,0.06928
+..\data\raw_15_speakers\huda\i would like.wav,..\data\raw_15_speakers\Isbah\yes.wav,0,-0.12859,-0.03784
+..\data\raw_15_speakers\Saman\please confirm my identity.wav,..\data\raw_15_speakers\shahzad\my voice is my password.wav,0,0.04848,0.04876
+..\data\raw_15_speakers\misha\i authorize.wav,..\data\raw_15_speakers\Robasha\confirm.wav,0,0.38703,0.33011
+..\data\raw_15_speakers\misha\yes.wav,..\data\raw_15_speakers\laiba\my account number.wav,0,0.12884,0.02778
+..\data\raw_15_speakers\Saman\please confirm my identity.wav,..\data\raw_15_speakers\Sania\please confirm my identity.wav,0,0.04297,0.12266
+..\data\raw_15_speakers\misha\please confirm.wav,..\data\raw_15_speakers\Isbah\please transfer funds.wav,0,0.23661,0.08343
+..\data\raw_15_speakers\shahzad\my voice is my password.wav,..\data\raw_15_speakers\zainab\confirm.wav,0,0.18216,0.24514
+..\data\raw_15_speakers\rameen\confirm.wav,..\data\raw_15_speakers\Isbah\verify my voice.wav,0,0.06003,0.17835
+..\data\raw_15_speakers\fizza\my account number.wav,..\data\raw_15_speakers\laiba\i confirm.wav,0,0.32074,0.16664
+..\data\raw_15_speakers\zainab\yes.wav,..\data\raw_15_speakers\laiba\my account number.wav,0,0.37234,0.16544
+..\data\raw_15_speakers\esha\please transfer funds.wav,..\data\raw_15_speakers\Saman\please transfer funds.wav,0,0.35646,0.18587
+..\data\raw_15_speakers\rameen\verify my voice.wav,..\data\raw_15_speakers\ridha\my account number.wav,0,0.36669,0.40056
+..\data\raw_15_speakers\Saman\my voice is my password.wav,..\data\raw_15_speakers\misha\yes.wav,0,0.2033,-0.04565
+..\data\raw_15_speakers\huda\approve.wav,..\data\raw_15_speakers\laiba\cancel.wav,0,0.1544,0.03776
+..\data\raw_15_speakers\rameen\please transfer funds.wav,..\data\raw_15_speakers\laiba\my account number.wav,0,0.29339,0.138
+..\data\raw_15_speakers\Tahoor\balance.wav,..\data\raw_15_speakers\misha\balance.wav,0,0.21148,0.23058
+..\data\raw_15_speakers\misha\my name is on account.wav,..\data\raw_15_speakers\esha\i would like.wav,0,0.22933,0.28499
+..\data\raw_15_speakers\Sania\i confirm.wav,..\data\raw_15_speakers\laiba\confirm.wav,0,0.28341,0.37696
+..\data\raw_15_speakers\fizza\please confirm.wav,..\data\raw_15_speakers\shahzad\approve.wav,0,0.18751,0.1438
+..\data\raw_15_speakers\huda\approve.wav,..\data\raw_15_speakers\alisha\please transfer funds.wav,0,0.19732,0.32722
+..\data\raw_15_speakers\ridha\i authorize.wav,..\data\raw_15_speakers\alisha\confirm.wav,0,0.35187,0.40429
+..\data\raw_15_speakers\Tahoor\i would like.wav,..\data\raw_15_speakers\Robasha\cancel.wav,0,0.16662,0.11525
+..\data\raw_15_speakers\Sania\i would like.wav,..\data\raw_15_speakers\rameen\approve.wav,0,0.13083,-0.01089
