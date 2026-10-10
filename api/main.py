@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 import os
 import shutil
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from spoof_detector import AntiSpoofDetector
 from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 
@@ -21,7 +22,8 @@ class VoceraEngine:
         model="damo/speech_campplus_sv_en_voxceleb_16k",
         model_revision="v1.0.2",
     )
-    self.verification_threshold = 0.2673  # EER baseline threshold
+    self.verification_threshold = 0.2673
+    self.anti_spoof = AntiSpoofDetector()
 
 
 engine = None
@@ -36,14 +38,16 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Vocera Voice Verification API",
-    version="1.0.0",
-    description="Enterprise Multi-Tenant Speaker Verification Engine",
+    version="1.1.0",
+    description=(
+        "Enterprise Multi-Tenant Speaker Verification Engine & Anti-Spoofing"
+        " Guard"
+    ),
     lifespan=lifespan,
 )
 
 
 def _save_uploaded_file(upload_file: UploadFile, save_path: str):
-  """Saves uploaded audio file directly without re-encoding to avoid library conflicts."""
   with open(save_path, "wb") as buffer:
     shutil.copyfileobj(upload_file.file, buffer)
 
@@ -58,7 +62,6 @@ async def enroll_speaker(
     tenant_dir = os.path.join(EMBEDDINGS_DIR, tenant_id)
     os.makedirs(tenant_dir, exist_ok=True)
 
-    # Preserve file extension or force .wav for clarity
     ext = os.path.splitext(file.filename)[1] or ".wav"
     enrolled_path = os.path.join(tenant_dir, f"{user_id}{ext}")
 
@@ -79,6 +82,26 @@ async def enroll_speaker(
     )
 
 
+@app.post("/detect-spoof")
+async def detect_spoof(file: UploadFile = File(...)):
+  """Standalone endpoint to evaluate if an audio sample is genuine or AI-generated deepfake."""
+  try:
+    ext = os.path.splitext(file.filename)[1] or ".wav"
+    temp_path = os.path.join(TEMP_DIR, f"spoof_check{ext}")
+    _save_uploaded_file(file, temp_path)
+
+    result = engine.anti_spoof.predict(temp_path)
+
+    if os.path.exists(temp_path):
+      os.remove(temp_path)
+
+    return {"status": "success", "result": result}
+  except Exception as e:
+    raise HTTPException(
+        status_code=500, detail=f"Anti-spoof analysis failed: {str(e)}"
+    )
+
+
 @app.post("/verify")
 async def verify_speaker(
     user_id: str = Form(...),
@@ -88,7 +111,6 @@ async def verify_speaker(
   try:
     tenant_dir = os.path.join(EMBEDDINGS_DIR, tenant_id)
 
-    # Search for enrolled file with user_id
     enrolled_files = [
         f
         for f in os.listdir(tenant_dir)
@@ -108,6 +130,22 @@ async def verify_speaker(
     verify_path = os.path.join(TEMP_DIR, f"verify_{user_id}{ext}")
     _save_uploaded_file(file, verify_path)
 
+    # Stage 1: Anti-Spoofing Liveness Check
+    spoof_res = engine.anti_spoof.predict(verify_path)
+    if not spoof_res["is_bonafide"]:
+      if os.path.exists(verify_path):
+        os.remove(verify_path)
+      return {
+          "status": "rejected",
+          "user_id": user_id,
+          "tenant_id": tenant_id,
+          "reason": "SPOOF_DETECTED",
+          "liveness_check": spoof_res,
+          "verified": False,
+          "decision": "ACCESS_DENIED",
+      }
+
+    # Stage 2: Speaker Verification via CAM++
     res = engine.cam_pipeline([enrolled_path, verify_path])
     score = float(res["score"])
 
@@ -120,6 +158,7 @@ async def verify_speaker(
         "status": "success",
         "user_id": user_id,
         "tenant_id": tenant_id,
+        "liveness_check": spoof_res,
         "confidence_score": round(score, 4),
         "threshold": engine.verification_threshold,
         "verified": verified,
