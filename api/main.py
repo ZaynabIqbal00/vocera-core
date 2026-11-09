@@ -1,178 +1,85 @@
-from contextlib import asynccontextmanager
-import os
-import shutil
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from spoof_detector import AntiSpoofDetector
-from modelscope.pipelines import pipeline
-from modelscope.utils.constant import Tasks
+import io
+import torch
+import torchaudio
+import numpy as np
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
-EMBEDDINGS_DIR = r"D:\vocera-core\data\enrolled_embeddings"
-TEMP_DIR = r"D:\vocera-core\data\temp"
+# Import the unified engine from spoof_detector.py
+from spoof_detector import VoceraUnifiedEngine
 
-os.makedirs(EMBEDDINGS_DIR, exist_ok=True)
-os.makedirs(TEMP_DIR, exist_ok=True)
+app = FastAPI(title="Vocera Voice Biometrics & Anti-Spoofing API")
 
-
-class VoceraEngine:
-
-  def __init__(self):
-    print("Initializing Vocera CAM++ Vector Extractor...")
-    self.cam_pipeline = pipeline(
-        task=Tasks.speaker_verification,
-        model="damo/speech_campplus_sv_en_voxceleb_16k",
-        model_revision="v1.0.2",
-    )
-    self.verification_threshold = 0.2673
-    self.anti_spoof = AntiSpoofDetector()
-
-
-engine = None
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-  global engine
-  engine = VoceraEngine()
-  yield
-
-
-app = FastAPI(
-    title="Vocera Voice Verification API",
-    version="1.1.0",
-    description=(
-        "Enterprise Multi-Tenant Speaker Verification Engine & Anti-Spoofing"
-        " Guard"
-    ),
-    lifespan=lifespan,
+# Enable CORS for frontend integration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
+# Initialize engine globally on startup
+engine = None
 
-def _save_uploaded_file(upload_file: UploadFile, save_path: str):
-  with open(save_path, "wb") as buffer:
-    shutil.copyfileobj(upload_file.file, buffer)
+@app.on_event("startup")
+async def startup_event():
+    global engine
+    # Point to your downloaded checkpoint path
+    engine = VoceraUnifiedEngine(antispoof_ckpt_path="vocera_robust_musan_eer.pt")
+    print("🚀 Vocera Engine loaded and ready for API requests.")
 
+@app.get("/")
+def health_check():
+    return {"status": "online", "service": "Vocera Biometrics Core", "eer_target": "< 5%"}
 
-@app.post("/enroll")
-async def enroll_speaker(
-    user_id: str = Form(...),
-    tenant_id: str = Form("allied_bank"),
-    file: UploadFile = File(...),
-):
-  try:
-    tenant_dir = os.path.join(EMBEDDINGS_DIR, tenant_id)
-    os.makedirs(tenant_dir, exist_ok=True)
-
-    ext = os.path.splitext(file.filename)[1] or ".wav"
-    enrolled_path = os.path.join(tenant_dir, f"{user_id}{ext}")
-
-    _save_uploaded_file(file, enrolled_path)
-
+# Rest API Endpoint for File-based Audio Verification
+@app.post("/api/v1/verify-audio")
+async def verify_audio_file(file: UploadFile = File(...)):
+    contents = await file.read()
+    audio_stream = io.BytesIO(contents)
+    
+    wf, sr = torchaudio.load(audio_stream)
+    wf_padded = engine.preprocess_audio(wf, sr)
+    
+    prob, risk_score, is_real = engine.predict_spoof_risk(wf_padded)
+    
     return {
-        "status": "success",
-        "message": (
-            f"User '{user_id}' successfully enrolled under tenant '{tenant_id}'."
-        ),
-        "user_id": user_id,
-        "tenant_id": tenant_id,
-        "saved_path": enrolled_path,
+        "filename": file.filename,
+        "is_real_human": is_real,
+        "bonafide_probability": round(prob, 4),
+        "deepfake_risk_score": f"{risk_score:.2f}%",
+        "action_required": "PROCEED" if is_real else "TRIGGER_LOW_CONFIDENCE_MFA"
     }
-  except Exception as e:
-    raise HTTPException(
-        status_code=500, detail=f"Enrollment failed: {str(e)}"
-    )
 
-
-@app.post("/detect-spoof")
-async def detect_spoof(file: UploadFile = File(...)):
-  """Standalone endpoint to evaluate if an audio sample is genuine or AI-generated deepfake."""
-  try:
-    ext = os.path.splitext(file.filename)[1] or ".wav"
-    temp_path = os.path.join(TEMP_DIR, f"spoof_check{ext}")
-    _save_uploaded_file(file, temp_path)
-
-    result = engine.anti_spoof.predict(temp_path)
-
-    if os.path.exists(temp_path):
-      os.remove(temp_path)
-
-    return {"status": "success", "result": result}
-  except Exception as e:
-    raise HTTPException(
-        status_code=500, detail=f"Anti-spoof analysis failed: {str(e)}"
-    )
-
-
-@app.post("/verify")
-async def verify_speaker(
-    user_id: str = Form(...),
-    tenant_id: str = Form("allied_bank"),
-    file: UploadFile = File(...),
-):
-  try:
-    tenant_dir = os.path.join(EMBEDDINGS_DIR, tenant_id)
-
-    enrolled_files = [
-        f
-        for f in os.listdir(tenant_dir)
-        if os.path.isfile(os.path.join(tenant_dir, f))
-        and f.startswith(f"{user_id}.")
-    ]
-
-    if not enrolled_files:
-      raise HTTPException(
-          status_code=404,
-          detail=f"User '{user_id}' is not enrolled under tenant '{tenant_id}'.",
-      )
-
-    enrolled_path = os.path.join(tenant_dir, enrolled_files[0])
-
-    ext = os.path.splitext(file.filename)[1] or ".wav"
-    verify_path = os.path.join(TEMP_DIR, f"verify_{user_id}{ext}")
-    _save_uploaded_file(file, verify_path)
-
-    # Stage 1: Anti-Spoofing Liveness Check
-    spoof_res = engine.anti_spoof.predict(verify_path)
-    if not spoof_res["is_bonafide"]:
-      if os.path.exists(verify_path):
-        os.remove(verify_path)
-      return {
-          "status": "rejected",
-          "user_id": user_id,
-          "tenant_id": tenant_id,
-          "reason": "SPOOF_DETECTED",
-          "liveness_check": spoof_res,
-          "verified": False,
-          "decision": "ACCESS_DENIED",
-      }
-
-    # Stage 2: Speaker Verification via CAM++
-    res = engine.cam_pipeline([enrolled_path, verify_path])
-    score = float(res["score"])
-
-    if os.path.exists(verify_path):
-      os.remove(verify_path)
-
-    verified = score >= engine.verification_threshold
-
-    return {
-        "status": "success",
-        "user_id": user_id,
-        "tenant_id": tenant_id,
-        "liveness_check": spoof_res,
-        "confidence_score": round(score, 4),
-        "threshold": engine.verification_threshold,
-        "verified": verified,
-        "decision": "ACCESS_GRANTED" if verified else "ACCESS_DENIED",
-    }
-  except HTTPException as he:
-    raise he
-  except Exception as e:
-    raise HTTPException(
-        status_code=500, detail=f"Verification failed: {str(e)}"
-    )
-
+# WebSocket Endpoint for Live Audio Stream Inference
+@app.websocket("/ws/stream-verify")
+async def stream_verify(websocket: WebSocket):
+    await websocket.accept()
+    print("🔌 WebSocket Client Connected")
+    try:
+        while True:
+            # Receive raw PCM audio chunk bytes from client
+            data = await websocket.receive_bytes()
+            
+            # Process bytes into waveform tensor
+            audio_stream = io.BytesIO(data)
+            wf, sr = torchaudio.load(audio_stream)
+            wf_padded = engine.preprocess_audio(wf, sr)
+            
+            # Predict risk score
+            prob, risk_score, is_real = engine.predict_spoof_risk(wf_padded)
+            
+            # Stream JSON assessment back to client
+            await websocket.send_json({
+                "is_real_human": is_real,
+                "confidence": round(prob, 4),
+                "deepfake_risk_score": round(risk_score, 2),
+                "status": "PASS" if is_real else "ALERT_SPOOF_DETECTED"
+            })
+    except WebSocketDisconnect:
+        print("❌ WebSocket Client Disconnected")
 
 if __name__ == "__main__":
-  import uvicorn
-
-  uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

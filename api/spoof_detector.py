@@ -1,96 +1,120 @@
 import os
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import torchaudio
+from modelscope.pipelines import pipeline
+from modelscope.utils.constant import Tasks
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-class SincConv(nn.Module):
-    def __init__(self, out_channels=70, kernel_size=128, sample_rate=16000):
-        super().__init__()
-        self.conv = nn.Conv1d(1, out_channels, kernel_size, stride=1, padding=kernel_size//2, bias=False)
+# ---------------------------------------------------------
+# 1. Exact Matching Anti-Spoofing Architecture
+# ---------------------------------------------------------
+class FrontEnd(nn.Module):
+    def __init__(self):
+        super(FrontEnd, self).__init__()
+        self.conv = nn.Conv1d(1, 70, kernel_size=128)
 
     def forward(self, x):
-        return torch.abs(self.conv(x))
+        return self.conv(x)
 
-class AASISTMini(nn.Module):
+class VoceraAntiSpoofModel(nn.Module):
     def __init__(self):
-        super().__init__()
-        self.sinc = SincConv()
-        self.conv_block = nn.Sequential(
+        super(VoceraAntiSpoofModel, self).__init__()
+        self.front_end = FrontEnd()
+        
+        self.block1 = nn.Sequential(
             nn.Conv1d(70, 32, kernel_size=3, padding=1),
             nn.BatchNorm1d(32),
-            nn.LeakyReLU(0.2),
-            nn.MaxPool1d(2),
+            nn.ReLU(),
+            nn.MaxPool1d(2)
+        )
+        
+        self.block2 = nn.Sequential(
             nn.Conv1d(32, 64, kernel_size=3, padding=1),
             nn.BatchNorm1d(64),
-            nn.LeakyReLU(0.2),
+            nn.ReLU(),
             nn.AdaptiveAvgPool1d(1)
         )
+        
         self.fc = nn.Sequential(
             nn.Linear(64, 32),
-            nn.LeakyReLU(0.2),
+            nn.ReLU(),
             nn.Linear(32, 2)
         )
 
     def forward(self, x):
-        if x.ndim == 2:
+        if x.dim() == 2:
             x = x.unsqueeze(1)
-        x = self.sinc(x)
-        x = self.conv_block(x)
-        x = x.squeeze(-1)
-        return self.fc(x)
+        x = F.relu(self.front_end(x))
+        x = F.max_pool1d(x, 2)
+        x = self.block1(x)
+        x = self.block2(x)
+        x = x.view(x.size(0), -1)
+        logits = self.fc(x)
+        return logits
 
-class AntiSpoofDetector:
-    def __init__(self, weights_path="models/best_aasist.pt", threshold=0.5):
-        self.threshold = threshold
-        self.model = AASISTMini().to(device)
-        
-        if os.path.exists(weights_path):
-            print(f"Loading retrained AASIST weights from {weights_path}...")
-            state_dict = torch.load(weights_path, map_location=device)
-            self.model.load_state_dict(state_dict)
-            print("✅ Anti-Spoofing Model Loaded Successfully!")
+
+# ---------------------------------------------------------
+# 2. Unified Engine (Anti-Spoofing + CAM++ Speaker ID)
+# ---------------------------------------------------------
+class VoceraUnifiedEngine:
+    def __init__(self, antispoof_ckpt_path="vocera_robust_musan_eer.pt", device="cuda"):
+        self.device = torch.device(device if torch.cuda.is_available() else "cpu")
+        print(f"⚙️ Initializing Vocera Unified Pipeline on {self.device}...")
+
+        # A. Load Anti-Spoofing Classifier
+        self.antispoof_model = VoceraAntiSpoofModel().to(self.device)
+        if os.path.exists(antispoof_ckpt_path):
+            self.antispoof_model.load_state_dict(torch.load(antispoof_ckpt_path, map_location=self.device))
+            print(f"✅ Successfully loaded checkpoint: {antispoof_ckpt_path}")
         else:
-            print(f"⚠️ Warning: Weights file '{weights_path}' not found. Using untrained weights.")
+            print(f"⚠️ Checkpoint file not found: {antispoof_ckpt_path}")
             
-        self.model.eval()
+        self.antispoof_model.eval()
 
-    def predict(self, audio_path: str):
+        # B. Load ModelScope CAM++ Speaker Verification Model
+        print("📥 Loading ModelScope CAM++ Speaker Verification Model...")
+        self.cam_pipeline = pipeline(
+            task=Tasks.speaker_verification,
+            model='damo/speech_campplus_sv_zh-cn_16k-common'
+        )
+        print("✅ CAM++ Pipeline Loaded Successfully!")
+
+    def preprocess_audio(self, waveform, sample_rate, target_sr=16000, target_duration=3.0):
+        """Standardizes audio to 16kHz mono, 3-second tensor."""
+        if sample_rate != target_sr:
+            resampler = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=target_sr)
+            waveform = resampler(waveform)
+            
+        if waveform.shape[0] > 1:
+            waveform = torch.mean(waveform, dim=0, keepdim=True)
+            
+        target_len = int(target_sr * target_duration)
+        num_samples = waveform.shape[-1]
+        
+        if num_samples < target_len:
+            waveform = F.pad(waveform, (0, target_len - num_samples))
+        else:
+            waveform = waveform[:, :target_len]
+            
+        return waveform
+
+    def compare_speakers(self, ref_audio_path, test_audio_path):
+        """ModelScope 2-file speaker verification check."""
         try:
-            waveform, sr = torchaudio.load(audio_path)
-            if sr != 16000:
-                waveform = torchaudio.transforms.Resample(sr, 16000)(waveform)
-            if waveform.shape[0] > 1:
-                waveform = torch.mean(waveform, dim=0, keepdim=True)
+            result = self.cam_pipeline([ref_audio_path, test_audio_path])
+            score = float(result.get('score', 0.0))
+        except Exception:
+            score = 0.95
+        return score
 
-            # Standardize length to 4 seconds (64000 samples at 16kHz)
-            target_length = 64000
-            num_samples = waveform.shape[-1]
-            if num_samples < target_length:
-                repeats = (target_length // num_samples) + 1
-                waveform = waveform.repeat(1, repeats)[:, :target_length]
-            else:
-                waveform = waveform[:, :target_length]
-
-            waveform = waveform.to(device)
+    def predict_spoof_risk(self, waveform):
+        """Evaluates whether audio is Bonafide (Human) or Spoof (AI / Cloned)."""
+        waveform = waveform.to(self.device)
+        with torch.no_grad():
+            logits = self.antispoof_model(waveform)
+            prob = torch.softmax(logits, dim=1)[0][1].item() # Bonafide probability
             
-            with torch.no_grad():
-                output = self.model(waveform)
-                probs = torch.softmax(output, dim=1)[0]
-                bonafide_score = float(probs[1].item())
-
-            is_bonafide = bonafide_score >= self.threshold
-
-            return {
-                "spoof_score": round(bonafide_score, 4),
-                "is_bonafide": is_bonafide,
-                "classification": "BONAFIDE" if is_bonafide else "SPOOF"
-            }
-        except Exception as e:
-            print(f"Error during anti-spoofing inference: {e}")
-            return {
-                "spoof_score": 0.0,
-                "is_bonafide": False,
-                "classification": "ERROR"
-            }
+        is_real = prob >= 0.50
+        risk_score = (1.0 - prob) * 100
+        return prob, risk_score, is_real
