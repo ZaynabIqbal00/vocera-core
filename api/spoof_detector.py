@@ -81,21 +81,36 @@ class VoceraUnifiedEngine:
         print("✅ CAM++ Pipeline Loaded Successfully!")
 
     def preprocess_audio(self, waveform, sample_rate, target_sr=16000, target_duration=3.0):
-        """Standardizes audio to 16kHz mono, 3-second tensor."""
+        """
+        Standardizes audio to 16kHz mono 3-second tensor with 
+        peak normalization and centered padding/cropping.
+        """
+        # 1. Convert sample rate to 16kHz
         if sample_rate != target_sr:
             resampler = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=target_sr)
             waveform = resampler(waveform)
             
+        # 2. Convert multi-channel to mono
         if waveform.shape[0] > 1:
             waveform = torch.mean(waveform, dim=0, keepdim=True)
             
+        # 3. Peak Normalization (Fixes mic gain/volume shift)
+        max_val = torch.abs(waveform).max()
+        if max_val > 0:
+            waveform = waveform / max_val
+
+        # 4. Centered Padding / Cropping (Fixes boundary padding shift)
         target_len = int(target_sr * target_duration)
         num_samples = waveform.shape[-1]
         
         if num_samples < target_len:
-            waveform = F.pad(waveform, (0, target_len - num_samples))
-        else:
-            waveform = waveform[:, :target_len]
+            pad_total = target_len - num_samples
+            pad_left = pad_total // 2
+            pad_right = pad_total - pad_left
+            waveform = F.pad(waveform, (pad_left, pad_right), mode='constant', value=0.0)
+        elif num_samples > target_len:
+            start = (num_samples - target_len) // 2
+            waveform = waveform[:, start:start + target_len]
             
         return waveform
 
@@ -113,8 +128,12 @@ class VoceraUnifiedEngine:
         waveform = waveform.to(self.device)
         with torch.no_grad():
             logits = self.antispoof_model(waveform)
-            prob = torch.softmax(logits, dim=1)[0][1].item() # Bonafide probability
+            probs = torch.softmax(logits, dim=1)[0]
             
-        is_real = prob >= 0.50
-        risk_score = (1.0 - prob) * 100
-        return prob, risk_score, is_real
+            # ASVspoof Standard Class Indexing: Index 0 = Bonafide (Real), Index 1 = Spoof (Fake)
+            bonafide_prob = probs[0].item() 
+            spoof_prob = probs[1].item()
+            
+        is_real = bonafide_prob >= 0.50
+        risk_score = spoof_prob * 100.0
+        return bonafide_prob, risk_score, is_real

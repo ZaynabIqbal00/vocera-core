@@ -45,14 +45,21 @@ async def verify_audio_file(file: UploadFile = File(...)):
     
     prob, risk_score, is_real = engine.predict_spoof_risk(wf_padded)
     
+    # 3-Tier Security Threshold Logic
+    if risk_score > 75.0:
+        action = "TRIGGER_HIGH_CONFIDENCE_MFA"
+    elif risk_score > 30.0:
+        action = "TRIGGER_LOW_CONFIDENCE_MFA"
+    else:
+        action = "PROCEED"
+    
     return {
         "filename": file.filename,
         "is_real_human": is_real,
         "bonafide_probability": round(prob, 4),
         "deepfake_risk_score": f"{risk_score:.2f}%",
-        "action_required": "PROCEED" if is_real else "TRIGGER_LOW_CONFIDENCE_MFA"
+        "action_required": action
     }
-
 # WebSocket Endpoint for Live Audio Stream Inference
 @app.websocket("/ws/stream-verify")
 async def stream_verify(websocket: WebSocket):
